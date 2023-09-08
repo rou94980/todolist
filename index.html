@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div id="app">
+      <main>
+        <h1>TODO LIST</h1>
+        <div class="content">
+          <section class="todo">
+            <h2>待辦</h2>
+            <ul>
+              <li v-for="(item,index) in todoList" :key="item.id">
+                <label>
+                  <input
+                    type="checkbox"
+                    v-model="item.isDone"
+                  />{{item.title}}</label
+                >
+                <i
+                  @click="deleTodo(index)"
+                  class="fa-solid fa-x fa-xs del"
+                  style="color: #aaaaaa"
+                ></i>
+              </li>
+              <li>
+                <i
+                  @click="addTodo"
+                  class="fa-solid fa-plus add"
+                  style="color: #aaaaaa"
+                ></i>
+                <input type="text" placeholder="Todo" v-model="val" />
+              </li>
+            </ul>
+          </section>
+          <section class="done">
+            <h2>已完成</h2>
+            <ul>
+              <li v-for="(item,index) in doneList" :key="item.id">
+                <label>
+                  <input
+                    type="checkbox"
+                    v-model="item.isDone"
+                  />{{item.title}}</label
+                >
+              </li>
+            </ul>
+          </section>
+        </div>
+      </main>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+      Vue.createApp({
+        data() {
+          return {
+            val: "",
+            list: [
+              {
+                id: 1,
+                title: "回家錢買牛奶",
+                isDone: false,
+              },
+            ],
+          };
+        },
+        computed: {
+          todoList() {
+            return this.list.filter((d) => !d.isDone);
+          },
+          doneList() {
+            return this.list.filter((d) => d.isDone);
+          },
+        },
+        methods: {
+          addTodo() {
+            this.list.push({
+              id: this.list.length,
+              title: this.val,
+              isDone: false,
+            });
+            this.val = "";
+          },
+          deleTodo(index) {
+            this.list.splice(index, 1);
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
